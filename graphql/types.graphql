@@ -7,7 +7,7 @@ type User {
 type Message {
     id: String
     text: String
-    createdAt: String
+    createdAt: Date
     authorId: String
     receiverId: String
 }

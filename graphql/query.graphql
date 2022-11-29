@@ -1,8 +1,8 @@
 input MessagesParams {
     authorId: String
     receiverId: String
-    startDate: String
-    finishDate: String
+    startDate: Date
+    finishDate: Date
 }
 
 type Query {
