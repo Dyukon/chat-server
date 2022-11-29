@@ -1,0 +1,13 @@
+type User {
+    id: String
+    name: String
+    passwordHash: String
+}
+
+type Message {
+    id: String
+    text: String
+    createdAt: String
+    authorId: String
+    receiverId: String
+}

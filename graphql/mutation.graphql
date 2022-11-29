@@ -1,0 +1,9 @@
+input CreateMessageParams {
+    authorId: String!
+    receiverId: String!
+    text: String!
+}
+
+type Mutation {
+    createMessage(params: CreateMessageParams!): Message!
+}

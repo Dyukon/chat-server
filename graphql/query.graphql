@@ -1,0 +1,11 @@
+input MessagesParams {
+    authorId: String
+    receiverId: String
+    startDate: String
+    finishDate: String
+}
+
+type Query {
+    users: [User!]!
+    messages(params: MessagesParams!): [Message!]!
+}
