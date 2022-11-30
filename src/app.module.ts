@@ -5,7 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { UserModule } from './user/user.module';
 import { MessageModule } from './message/message.module';
-import { DateScalar } from '../graphql/scalars/date.scalar'
+import { DateScalar } from './graphql/date.scalar'
 
 @Module({
   imports: [

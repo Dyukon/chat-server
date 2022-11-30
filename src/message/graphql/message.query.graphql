@@ -6,6 +6,5 @@ input MessagesParams {
 }
 
 type Query {
-    users: [User!]!
     messages(params: MessagesParams!): [Message!]!
 }
