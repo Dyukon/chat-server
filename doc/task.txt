@@ -1,0 +1,35 @@
+Full Stack Developer Coding Challenge
+The purpose of this coding challenge is to test a candidate's ability to write concise, correct, elegant, robust and efficient code carrying the duties of a Full Stack Developer. Also to familiarize the tools and libraries we will be using.
+
+Technologies
+============
+Typescript
+React
+Redux
+GraphQL
+NestJS
+Prisma
+PostgreSQL
+
+Libraries
+=========
+Apollo Client
+Ant Design
+
+Testing
+=======
+jasmine - Unit Test
+
+Bonus
+=====
+Use of GraphQL Subscriptions
+Use of Custom React Hooks
+
+Task
+====
+Develop a simple chat room that allows multiple people to join, data should persist
+Leaving requirements open to interpretation as a test for making correct assumptions
+Caching and optimisations will be a plus
+Making use of all the technologies at your disposal
+It doesn't have to look pretty
+Structure and coding style will have more weight
