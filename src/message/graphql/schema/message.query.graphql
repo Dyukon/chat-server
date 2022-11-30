@@ -1,5 +1,5 @@
 input MessagesParams {
-    authorId: String
+    senderId: String
     receiverId: String
     startDate: Date
     finishDate: Date

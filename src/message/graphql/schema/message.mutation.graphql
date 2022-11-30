@@ -1,5 +1,5 @@
 input CreateMessageParams {
-    authorId: String!
+    senderId: String!
     receiverId: String!
     text: String!
 }

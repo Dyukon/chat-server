@@ -2,6 +2,6 @@ type Message {
     id: String
     text: String
     createdAt: Date
-    authorId: String
+    senderId: String
     receiverId: String
 }
