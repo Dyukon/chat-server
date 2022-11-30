@@ -1,0 +1,19 @@
+input CreateUserParams {
+    email: String!
+    name: String!
+    password: String!
+}
+
+input LoginUserParams {
+    email: String!
+    password: String!
+}
+
+type LoginUserResult {
+    accessToken: String!
+}
+
+type Mutation {
+    createUser(params: CreateUserParams!): User!
+    loginUser(params: LoginUserParams): LoginUserResult!
+}

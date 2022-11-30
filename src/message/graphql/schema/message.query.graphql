@@ -7,6 +7,4 @@ input MessagesParams {
 
 type Query {
     messages(params: MessagesParams!): [Message!]!
-
-    testTime: Date!
 }

@@ -12,8 +12,9 @@ datasource db {
 
 model User {
   id String @id @default(uuid())
+  email String
   name String
-  hashedPassword String
+  hashedPassword String @map("hashed_password")
   sentMessages Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
 
@@ -24,9 +25,9 @@ model Message {
   id String @id @default(uuid())
   text String
   // createdAt Date
-  senderId String
+  senderId String @map("sender_id")
   sender User @relation(name: "SentMessages", fields: [senderId], references: [id])
-  receiverId String
+  receiverId String @map("receiver_id")
   receiver User @relation(name: "ReceivedMessages", fields: [receiverId], references: [id])
 
   @@map("messages")

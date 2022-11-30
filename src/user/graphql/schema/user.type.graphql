@@ -1,5 +1,6 @@
 type User {
     id: String
+    email: String
     name: String
-    passwordHash: String
+    hashedPassword: String
 }
