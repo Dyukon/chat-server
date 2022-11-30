@@ -11,10 +11,15 @@ export class MessageService {
   ) {}
 
   async messages(params: MessagesInput) {
-    return this.prismaService.message.findMany({
+    let dateFilter = {
+      ...(params.startDate ? {gte: params.startDate} : {}),
+      ...(params.finishDate ? {lt: params.finishDate} : {})
+    }
+    return await this.prismaService.message.findMany({
       where: {
         ...(params.senderId ? {senderId: params.senderId} : {}),
-        ...(params.receiverId ? {receiverId: params.receiverId} : {})
+        ...(params.receiverId ? {receiverId: params.receiverId} : {}),
+        ...(params.startDate || params.finishDate ? {createdAt: dateFilter} : {})
       }
     })
   }

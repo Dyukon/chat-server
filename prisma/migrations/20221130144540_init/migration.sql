@@ -12,6 +12,7 @@ CREATE TABLE "users" (
 CREATE TABLE "messages" (
     "id" TEXT NOT NULL,
     "text" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "sender_id" TEXT NOT NULL,
     "receiver_id" TEXT NOT NULL,
 
