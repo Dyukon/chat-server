@@ -9,7 +9,7 @@ import { JwtAuthGuard } from '../lib/guards/jwt.guard'
 import { CurrentUser } from '../lib/decorators/user.decorator'
 import { User } from './models/user.model'
 
-@Resolver('User')
+@Resolver(() => User)
 export class UserResolver {
   constructor(
     private readonly userService: UserService

@@ -14,7 +14,10 @@ import { join } from 'path'
       debug: true,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'generated/schema.gql'),
-      sortSchema: true
+      sortSchema: true,
+      subscriptions: {
+        'graphql-ws': true
+      }
     }),
     UserModule,
     MessageModule
