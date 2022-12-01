@@ -1,13 +1,13 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { UserService } from './user.service'
-import { CreateUserInput } from './graphql/models/create-user.input'
-import { User } from '@prisma/client'
+import { CreateUserInput } from './models/create-user.input'
 import { ApolloError } from 'apollo-server-express'
-import { LoginUserInput } from './graphql/models/login-user.input'
-import { LoginUserResult } from './graphql/models/login-user-result'
+import { LoginUserInput } from './models/login-user.input'
+import { LoginUserResult } from './models/login-user-result'
 import { UseGuards, Request } from '@nestjs/common'
 import { JwtAuthGuard } from '../lib/guards/jwt.guard'
 import { CurrentUser } from '../lib/decorators/user.decorator'
+import { User } from './models/user.model'
 
 @Resolver('User')
 export class UserResolver {
@@ -15,8 +15,10 @@ export class UserResolver {
     private readonly userService: UserService
   ) {}
 
-  @Mutation()
-  async createUser(@Args('params') params: CreateUserInput): Promise<User> {
+  @Mutation(() => User, {name: 'createUser'})
+  async createUser(
+    @Args('params') params: CreateUserInput
+  ): Promise<User> {
     console.log(`Mutation.createUser - params: ${JSON.stringify(params)}`)
 
     const userByEmail = await this.userService.findByEmail(params.email)
@@ -32,23 +34,26 @@ export class UserResolver {
     return await this.userService.createUser(params)
   }
 
-  @Mutation()
-  async loginUser(@Args('params') params: LoginUserInput): Promise<LoginUserResult> {
+  @Mutation(() => LoginUserResult, {name: 'loginUser'})
+  async loginUser(
+    @Args('params') params: LoginUserInput
+  ): Promise<LoginUserResult> {
     console.log(`Mutation.loginUser - params: ${JSON.stringify(params)}`)
-
     return await this.userService.loginUser(params)
   }
 
   @UseGuards(JwtAuthGuard)
-  @Query()
+  @Query(() => [User], {name: 'users'})
   async users(): Promise<User[]> {
     console.log(`Query.users`)
     return await this.userService.findAll()
   }
 
   @UseGuards(JwtAuthGuard)
-  @Query()
-  async receivers(@CurrentUser() user: User): Promise<User[]> {
+  @Query(() => [User], {name: 'receivers'})
+  async receivers(
+    @CurrentUser() user: User
+  ): Promise<User[]> {
     console.log(`Query.addressees - user: ${JSON.stringify(user)}`)
     return await this.userService.findAllExcept(user.id)
   }

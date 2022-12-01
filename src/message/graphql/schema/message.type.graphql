@@ -1,7 +1,0 @@
-type Message {
-    id: String
-    text: String
-    createdAt: Date
-    senderId: String
-    receiverId: String
-}

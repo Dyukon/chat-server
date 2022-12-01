@@ -3,15 +3,15 @@ import { Field, InputType } from '@nestjs/graphql'
 @InputType()
 export class MessagesInput {
 
-  @Field()
+  @Field({ nullable: true })
   senderId: string
 
-  @Field()
+  @Field({ nullable: true })
   receiverId: string
 
-  @Field()
+  @Field({ nullable: true })
   startDate: Date
 
-  @Field()
+  @Field({ nullable: true })
   finishDate: Date
 }

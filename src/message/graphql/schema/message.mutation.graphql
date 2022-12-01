@@ -1,9 +1,0 @@
-input CreateMessageParams {
-    senderId: String!
-    receiverId: String!
-    text: String!
-}
-
-type Mutation {
-    createMessage(params: CreateMessageParams!): Message!
-}

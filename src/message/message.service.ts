@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { CreateMessageInput } from './graphql/models/create-message.input'
-import { MessagesInput } from './graphql/models/messages.input'
+import { CreateMessageInput } from './models/create-message.input'
+import { MessagesInput } from './models/messages.input'
 import { PrismaService } from '../lib/services/prisma.service'
 
 @Injectable()
@@ -24,10 +24,10 @@ export class MessageService {
     })
   }
 
-  async createMessage(params: CreateMessageInput) {
+  async createMessage(senderId: string, params: CreateMessageInput) {
     return this.prismaService.message.create({
       data: {
-        senderId: params.senderId,
+        senderId: senderId,
         receiverId: params.receiverId,
         text: params.text
       }

@@ -1,0 +1,60 @@
+mutation {
+  createUser(params: {
+    name: "One"
+    email: "one@one.one"
+    password: "one"
+  }) {
+    accessToken
+  }
+}
+
+mutation {
+  loginUser(params: {
+    email: "one@one.one"
+    password: "one"
+  }) {
+    accessToken
+  }
+}
+
+query {
+  users {
+    id
+    name
+    email
+    hashedPassword
+  }
+}
+
+query {
+  receivers {
+    id
+    name
+    email
+    hashedPassword
+  }
+}
+
+mutation {
+  createMessage(params: {
+    receiverId: "d77aa34a-a6ea-4a2b-a737-db8ffe2f598f",
+    text: "Hi"
+  }) {
+    id
+    text
+    senderId
+    receiverId
+    createdAt
+  }
+}
+
+query {
+  messages(params: {
+  }) {
+    id
+    text
+    senderId
+    receiverId
+    createdAt
+  }
+}

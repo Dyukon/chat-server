@@ -1,4 +1,0 @@
-type Query {
-    users: [User!]!
-    receivers: [User!]! # all users except the current
-}

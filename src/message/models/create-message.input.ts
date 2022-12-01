@@ -4,9 +4,6 @@ import { Field, InputType } from '@nestjs/graphql'
 export class CreateMessageInput {
 
   @Field()
-  senderId: string
-
-  @Field()
   receiverId: string
 
   @Field()

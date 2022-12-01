@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../lib/services/prisma.service'
 import { User } from '@prisma/client'
-import { CreateUserInput } from './graphql/models/create-user.input'
+import { CreateUserInput } from './models/create-user.input'
 import { compare, genSalt, hash } from 'bcryptjs'
-import { LoginUserInput } from './graphql/models/login-user.input'
+import { LoginUserInput } from './models/login-user.input'
 import { ApolloError } from 'apollo-server-express'
 import { JwtService } from '@nestjs/jwt'
 
