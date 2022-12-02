@@ -17,6 +17,10 @@ import { join } from 'path'
       sortSchema: true,
       subscriptions: {
         'graphql-ws': true
+      },
+      cors: {
+        origin: 'http://localhost:4000',
+        credentials: true
       }
     }),
     UserModule,

@@ -48,13 +48,19 @@ export class UserService {
     const salt = await genSalt(10)
     const hashedPassword = await hash(params.password, salt)
 
-    return await this.prismaService.user.create({
+    const user = await this.prismaService.user.create({
       data: {
         email: params.email,
         name: params.name,
         hashedPassword: hashedPassword
       }
     })
+
+    return {
+      accessToken: await this.jwtService.signAsync({
+        id: user.id
+      })
+    }
   }
 
   async loginUser(params: LoginUserInput) {

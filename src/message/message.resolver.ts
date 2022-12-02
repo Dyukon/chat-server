@@ -40,12 +40,6 @@ export class MessageResolver {
     return message;
   }
 
-  @Query(() => Date, { name: 'time'} )
-  async time() {
-    console.log(`Query.time`)
-    return new Date()
-  }
-
   @Subscription(() => Message, {
     name: 'messageAdded'
   })

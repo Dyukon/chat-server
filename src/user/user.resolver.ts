@@ -1,9 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { UserService } from './user.service'
-import { CreateUserInput } from './models/create-user.input'
 import { ApolloError } from 'apollo-server-express'
+import { CreateUserInput } from './models/create-user.input'
+import { CreateUserResult } from './models/create-user.result'
 import { LoginUserInput } from './models/login-user.input'
-import { LoginUserResult } from './models/login-user-result'
+import { LoginUserFakeResult, LoginUserResult } from './models/login-user.result'
 import { UseGuards, Request } from '@nestjs/common'
 import { JwtAuthGuard } from '../lib/guards/jwt.guard'
 import { CurrentUser } from '../lib/decorators/user.decorator'
@@ -15,10 +16,10 @@ export class UserResolver {
     private readonly userService: UserService
   ) {}
 
-  @Mutation(() => User, {name: 'createUser'})
+  @Mutation(() => CreateUserResult, {name: 'createUser'})
   async createUser(
     @Args('params') params: CreateUserInput
-  ): Promise<User> {
+  ): Promise<CreateUserResult> {
     console.log(`Mutation.createUser - params: ${JSON.stringify(params)}`)
 
     const userByEmail = await this.userService.findByEmail(params.email)
@@ -31,7 +32,9 @@ export class UserResolver {
       throw new ApolloError('A user with that name already exists')
     }
 
-    return await this.userService.createUser(params)
+    const result = await this.userService.createUser(params)
+    console.log(`Mutation.createUser - result: ${JSON.stringify(result)}`)
+    return result;
   }
 
   @Mutation(() => LoginUserResult, {name: 'loginUser'})
@@ -39,7 +42,9 @@ export class UserResolver {
     @Args('params') params: LoginUserInput
   ): Promise<LoginUserResult> {
     console.log(`Mutation.loginUser - params: ${JSON.stringify(params)}`)
-    return await this.userService.loginUser(params)
+    const result = await this.userService.loginUser(params)
+    console.log(`Mutation.loginUser - result: ${JSON.stringify(result)}`)
+    return result
   }
 
   @UseGuards(JwtAuthGuard)
