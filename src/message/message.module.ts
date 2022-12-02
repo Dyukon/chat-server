@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { MessageService } from './message.service';
-import { MessageResolver } from './message.resolver';
+import { Module } from '@nestjs/common'
+import { MessageService } from './message.service'
+import { MessageResolver } from './message.resolver'
 import { PrismaService } from '../lib/services/prisma.service'
 
 @Module({
@@ -10,4 +10,5 @@ import { PrismaService } from '../lib/services/prisma.service'
     MessageService
   ]
 })
-export class MessageModule {}
+export class MessageModule {
+}

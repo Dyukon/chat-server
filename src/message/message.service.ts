@@ -25,10 +25,17 @@ export class MessageService {
   }
 
   async createMessage(senderId: string, params: CreateMessageInput) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id: senderId
+      }
+    })
+
     return this.prismaService.message.create({
       data: {
         text: params.text,
         senderId: senderId,
+        senderName: user.name,
         receiverId: params.receiverId
       }
     })

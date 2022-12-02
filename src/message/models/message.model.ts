@@ -15,6 +15,9 @@ export class Message {
   @Field()
   senderId: string
 
+  @Field()
+  senderName: string
+
   @Field({ nullable: true })
   receiverId: string
 }
