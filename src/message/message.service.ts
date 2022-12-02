@@ -27,9 +27,9 @@ export class MessageService {
   async createMessage(senderId: string, params: CreateMessageInput) {
     return this.prismaService.message.create({
       data: {
+        text: params.text,
         senderId: senderId,
-        receiverId: params.receiverId,
-        text: params.text
+        receiverId: params.receiverId
       }
     })
   }

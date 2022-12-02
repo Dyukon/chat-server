@@ -15,6 +15,6 @@ export class Message {
   @Field()
   senderId: string
 
-  @Field()
+  @Field({ nullable: true })
   receiverId: string
 }

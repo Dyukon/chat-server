@@ -27,8 +27,8 @@ model Message {
   createdAt DateTime @default(now()) @map("created_at")
   senderId String @map("sender_id")
   sender User @relation(name: "SentMessages", fields: [senderId], references: [id])
-  receiverId String @map("receiver_id")
-  receiver User @relation(name: "ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId String? @map("receiver_id")
+  receiver User? @relation(name: "ReceivedMessages", fields: [receiverId], references: [id])
 
   @@map("messages")
 }
