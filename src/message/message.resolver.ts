@@ -44,6 +44,7 @@ export class MessageResolver {
     name: 'messageAdded'
   })
   subscribeToMessageAdded() {
+    console.log(`Subscription.subscribeToMessageAdded`)
     return pubSub.asyncIterator('messageAdded')
   }
 }

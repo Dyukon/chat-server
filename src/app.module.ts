@@ -15,9 +15,7 @@ import { join } from 'path'
       playground: true,
       autoSchemaFile: join(process.cwd(), 'generated/schema.gql'),
       sortSchema: true,
-      subscriptions: {
-        'graphql-ws': true
-      },
+      installSubscriptionHandlers: true,
       cors: {
         origin: 'http://localhost:4000',
         credentials: true
