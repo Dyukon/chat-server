@@ -1,15 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql'
+import { User } from './user.model'
 
 @ObjectType()
 export class LoginUserResult {
 
   @Field()
   accessToken: string
-}
 
-@ObjectType()
-export class LoginUserFakeResult {
-
-  @Field()
-  test: string
+  @Field(type => User)
+  user: User
 }

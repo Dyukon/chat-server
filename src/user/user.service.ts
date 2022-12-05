@@ -64,10 +64,13 @@ export class UserService {
       }
     })
 
+    const accessToken = await this.jwtService.signAsync({
+      id: user.id
+    })
+
     return {
-      accessToken: await this.jwtService.signAsync({
-        id: user.id
-      })
+      accessToken,
+      user
     }
   }
 
@@ -82,10 +85,13 @@ export class UserService {
       throw new ApolloError('Invalid password')
     }
 
+    const accessToken = await this.jwtService.signAsync({
+      id: user.id
+    })
+
     return {
-      accessToken: await this.jwtService.signAsync({
-        id: user.id
-      })
+      accessToken,
+      user
     }
   }
 }
