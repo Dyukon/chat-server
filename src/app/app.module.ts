@@ -3,8 +3,8 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
-import { UserModule } from './user/user.module';
-import { MessageModule } from './message/message.module';
+import { UserModule } from '../user/user.module';
+import { MessageModule } from '../message/message.module';
 import { join } from 'path'
 
 @Module({
