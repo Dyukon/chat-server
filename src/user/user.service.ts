@@ -28,14 +28,6 @@ export class UserService {
     })
   }
 
-  async findById(id: string) {
-    return await this.prismaService.user.findUnique({
-      where: {
-        id: id
-      }
-    })
-  }
-
   async findByName(name: string) {
     return await this.prismaService.user.findFirst({
       where: {
