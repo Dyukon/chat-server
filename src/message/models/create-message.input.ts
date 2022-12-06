@@ -11,8 +11,5 @@ export class CreateMessageInput {
   text: string
 
   @Field({ nullable: true })
-  @IsNotEmpty({
-    message: 'Receiver ID cannot be empty'
-  })
   receiverId: string
 }
