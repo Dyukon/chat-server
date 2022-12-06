@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserResolver } from './user.resolver';
-import { INestApplication } from '@nestjs/common'
+import { INestApplication, Logger } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../app/app.module'
 import { PrismaService } from '../lib/services/prisma.service'
@@ -9,6 +9,8 @@ import { PrismaClient } from '@prisma/client'
 
 describe('UserResolver', () => {
   const gql = '/graphql'
+
+  const logger = new Logger('UserResolverTest')
 
   let app: INestApplication;
   let prisma: DeepMockProxy<PrismaClient>
@@ -80,6 +82,6 @@ describe('UserResolver', () => {
           }    
         `
       })
-    console.log(`result: ${result}`)
+    logger.log(`result: ${result}`)
   });
 });

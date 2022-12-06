@@ -2,7 +2,7 @@ import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
 import { MessageService } from './message.service'
 import { CreateMessageInput } from './models/create-message.input'
 import { MessagesInput } from './models/messages.input'
-import { UseGuards } from '@nestjs/common'
+import { Logger, UseGuards } from '@nestjs/common'
 import { JwtAuthGuard } from '../lib/guards/jwt.guard'
 import { Message } from './models/message.model'
 import { CurrentUser } from '../lib/decorators/user.decorator'
@@ -13,6 +13,9 @@ const pubSub = new PubSub()
 
 @Resolver(() => Message)
 export class MessageResolver {
+
+  private readonly logger = new Logger('MessageResolver')
+
   constructor(
     private readonly messageService: MessageService
   ) {}
@@ -22,7 +25,7 @@ export class MessageResolver {
   async messages(
     @Args('params') params: MessagesInput
   ) {
-    console.log(`Query.messages - params: ${JSON.stringify(params)}`)
+    this.logger.log(`Query.messages - params: ${JSON.stringify(params)}`)
     return this.messageService.messages(params)
   }
 
@@ -32,7 +35,7 @@ export class MessageResolver {
     @CurrentUser() user: User,
     @Args('params') params: CreateMessageInput
   ) {
-    console.log(`Mutation.createMessage - user: ${JSON.stringify(user)}, params: ${JSON.stringify(params)}`)
+    this.logger.log(`Mutation.createMessage - user: ${JSON.stringify(user)}, params: ${JSON.stringify(params)}`)
     const message = await this.messageService.createMessage(user.id, params)
     await pubSub.publish('messageAdded', {
       messageAdded: message
@@ -44,7 +47,7 @@ export class MessageResolver {
     name: 'messageAdded'
   })
   subscribeToMessageAdded() {
-    console.log(`Subscription.subscribeToMessageAdded`)
+    this.logger.log(`Subscription.subscribeToMessageAdded`)
     return pubSub.asyncIterator('messageAdded')
   }
 }

@@ -5,13 +5,16 @@ import { CreateUserInput } from './models/create-user.input'
 import { CreateUserResult } from './models/create-user.result'
 import { LoginUserInput } from './models/login-user.input'
 import { LoginUserResult } from './models/login-user.result'
-import { UseGuards } from '@nestjs/common'
+import { Logger, UseGuards } from '@nestjs/common'
 import { JwtAuthGuard } from '../lib/guards/jwt.guard'
 import { CurrentUser } from '../lib/decorators/user.decorator'
 import { User } from './models/user.model'
 
 @Resolver(() => User)
 export class UserResolver {
+
+  private readonly logger = new Logger('UserResolver')
+
   constructor(
     private readonly userService: UserService
   ) {}
@@ -20,7 +23,7 @@ export class UserResolver {
   async createUser(
     @Args('params') params: CreateUserInput
   ): Promise<CreateUserResult> {
-    console.log(`Mutation.createUser - params: ${JSON.stringify(params)}`)
+    this.logger.log(`Mutation.createUser - params: ${JSON.stringify(params)}`)
 
     const userByEmail = await this.userService.findByEmail(params.email)
     if (userByEmail) {
@@ -33,7 +36,7 @@ export class UserResolver {
     }
 
     const result = await this.userService.createUser(params)
-    console.log(`Mutation.createUser - result: ${JSON.stringify(result)}`)
+    this.logger.log(`Mutation.createUser - result: ${JSON.stringify(result)}`)
     return result;
   }
 
@@ -41,16 +44,16 @@ export class UserResolver {
   async loginUser(
     @Args('params') params: LoginUserInput
   ): Promise<LoginUserResult> {
-    console.log(`Mutation.loginUser - params: ${JSON.stringify(params)}`)
+    this.logger.log(`Mutation.loginUser - params: ${JSON.stringify(params)}`)
     const result = await this.userService.loginUser(params)
-    console.log(`Mutation.loginUser - result: ${JSON.stringify(result)}`)
+    this.logger.log(`Mutation.loginUser - result: ${JSON.stringify(result)}`)
     return result
   }
 
   @UseGuards(JwtAuthGuard)
   @Query(() => [User], {name: 'users'})
   async users(): Promise<User[]> {
-    console.log(`Query.users`)
+    this.logger.log(`Query.users`)
     return this.userService.findAll()
   }
 
@@ -59,7 +62,7 @@ export class UserResolver {
   async receivers(
     @CurrentUser() user: User
   ): Promise<User[]> {
-    console.log(`Query.addressees - user: ${JSON.stringify(user)}`)
+    this.logger.log(`Query.addressees - user: ${JSON.stringify(user)}`)
     return this.userService.findAllExcept(user.id)
   }
 }
