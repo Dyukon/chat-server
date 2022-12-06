@@ -9,7 +9,7 @@ export class Message {
   @Field()
   text: string
 
-  @Field()
+  @Field(type => Date)
   createdAt: Date
 
   @Field()
