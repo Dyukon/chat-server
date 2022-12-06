@@ -23,7 +23,7 @@ export class MessageResolver {
     @Args('params') params: MessagesInput
   ) {
     console.log(`Query.messages - params: ${JSON.stringify(params)}`)
-    return await this.messageService.messages(params)
+    return this.messageService.messages(params)
   }
 
   @UseGuards(JwtAuthGuard)

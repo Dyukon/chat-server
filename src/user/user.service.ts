@@ -15,11 +15,11 @@ export class UserService {
   ) {}
 
   async findAll(): Promise<User[]> {
-    return await this.prismaService.user.findMany()
+    return this.prismaService.user.findMany()
   }
 
   async findAllExcept(excludedId: string): Promise<User[]> {
-    return await this.prismaService.user.findMany({
+    return this.prismaService.user.findMany({
       where: {
         NOT: {
           id: excludedId
@@ -29,7 +29,7 @@ export class UserService {
   }
 
   async findByName(name: string) {
-    return await this.prismaService.user.findFirst({
+    return this.prismaService.user.findFirst({
       where: {
         name: name
       }
@@ -37,7 +37,7 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return await this.prismaService.user.findFirst({
+    return this.prismaService.user.findFirst({
       where: {
         email: email
       }

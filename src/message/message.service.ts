@@ -15,7 +15,7 @@ export class MessageService {
       ...(params.startDate ? {gte: params.startDate} : {}),
       ...(params.finishDate ? {lt: params.finishDate} : {})
     }
-    return await this.prismaService.message.findMany({
+    return this.prismaService.message.findMany({
       where: {
         ...(params.senderId ? {senderId: params.senderId} : {}),
         ...(params.receiverId ? {receiverId: params.receiverId} : {}),
@@ -35,7 +35,7 @@ export class MessageService {
       data: {
         text: params.text,
         senderId: senderId,
-        senderName: user.name,
+        senderName: user!.name,
         receiverId: params.receiverId
       }
     })

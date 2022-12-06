@@ -51,7 +51,7 @@ export class UserResolver {
   @Query(() => [User], {name: 'users'})
   async users(): Promise<User[]> {
     console.log(`Query.users`)
-    return await this.userService.findAll()
+    return this.userService.findAll()
   }
 
   @UseGuards(JwtAuthGuard)
@@ -60,6 +60,6 @@ export class UserResolver {
     @CurrentUser() user: User
   ): Promise<User[]> {
     console.log(`Query.addressees - user: ${JSON.stringify(user)}`)
-    return await this.userService.findAllExcept(user.id)
+    return this.userService.findAllExcept(user.id)
   }
 }
