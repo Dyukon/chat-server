@@ -1,22 +1,23 @@
 import { Injectable } from '@nestjs/common'
-import { CreateMessageInput } from './models/create-message.input'
-import { MessagesInput } from './models/messages.input'
+import { CreateEventInput } from './models/create-event.input'
+import { EventsInput } from './models/events.input'
 import { PrismaService } from '../lib/services/prisma.service'
 
 @Injectable()
-export class MessageService {
+export class EventService {
 
   constructor(
     private readonly prismaService: PrismaService
   ) {}
 
-  async messages(params: MessagesInput) {
+  async events(params: EventsInput) {
     let dateFilter = {
       ...(params.startDate ? {gte: params.startDate} : {}),
       ...(params.finishDate ? {lt: params.finishDate} : {})
     }
-    return this.prismaService.message.findMany({
+    return this.prismaService.event.findMany({
       where: {
+        ...(params.type ? {type: params.type} : {}),
         ...(params.senderId ? {senderId: params.senderId} : {}),
         ...(params.receiverId ? {receiverId: params.receiverId} : {}),
         ...(params.startDate || params.finishDate ? {createdAt: dateFilter} : {})
@@ -24,19 +25,20 @@ export class MessageService {
     })
   }
 
-  async createMessage(senderId: string, params: CreateMessageInput) {
+  async createEvent(senderId: string, params: CreateEventInput) {
     const user = await this.prismaService.user.findUnique({
       where: {
         id: senderId
       }
     })
 
-    return this.prismaService.message.create({
+    return this.prismaService.event.create({
       data: {
-        text: params.text,
+        type: params.type,
         senderId: senderId,
         senderName: user!.name,
-        receiverId: params.receiverId
+        receiverId: params.receiverId,
+        message: params.message
       }
     })
   }

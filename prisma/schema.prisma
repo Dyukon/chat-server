@@ -15,21 +15,22 @@ model User {
   email String
   name String
   hashedPassword String @map("hashed_password")
-  sentMessages Message[] @relation("SentMessages")
-  receivedMessages Message[] @relation("ReceivedMessages")
+  sentEvents Event[] @relation("SentEvents")
+  receivedEvents Event[] @relation("ReceivedEvents")
 
   @@map("users")
 }
 
-model Message {
+model Event {
   id String @id @default(uuid())
-  text String
+  type String
   createdAt DateTime @default(now()) @map("created_at")
   senderId String @map("sender_id")
-  sender User @relation(name: "SentMessages", fields: [senderId], references: [id])
+  sender User @relation(name: "SentEvents", fields: [senderId], references: [id])
   senderName String @map("sender_name")
   receiverId String? @map("receiver_id")
-  receiver User? @relation(name: "ReceivedMessages", fields: [receiverId], references: [id])
+  receiver User? @relation(name: "ReceivedEvents", fields: [receiverId], references: [id])
+  message String?
 
-  @@map("messages")
+  @@map("events")
 }

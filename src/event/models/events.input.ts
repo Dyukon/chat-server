@@ -1,8 +1,13 @@
 import { Field, InputType } from '@nestjs/graphql'
 import { IsDate, IsOptional } from '@nestjs/class-validator'
+import { EventType } from './event-type.model'
 
 @InputType()
-export class MessagesInput {
+export class EventsInput {
+
+  @Field(type => EventType, { nullable: true })
+  @IsOptional()
+  type: EventType
 
   @Field({ nullable: true })
   @IsOptional()
