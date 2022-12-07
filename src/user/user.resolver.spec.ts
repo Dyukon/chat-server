@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { UserResolver } from './user.resolver'
-import { INestApplication, Logger } from '@nestjs/common'
+import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AppModule } from '../app/app.module'
 import { PrismaService } from '../lib/services/prisma.service'
@@ -10,29 +10,20 @@ import { PrismaClient } from '@prisma/client'
 describe('UserResolver', () => {
   const gql = '/graphql'
 
-  const logger = new Logger('UserResolverTest')
-
   let app: INestApplication
   let prisma: DeepMockProxy<PrismaClient>
 
-  const TEST_USER = {
-    id: 'test_id',
-    name: 'Test User',
-    email: 'test_user@test.test',
-    password: 'testuser'
-  }
+  const TEST_USER_ID = 'test_user_id'
+  const TEST_USER_NAME = 'Test User'
+  const TEST_USER_EMAIL = 'test_user@test.test'
+  const TEST_USER_PASSWORD = 'testuser'
+  const TEST_USER_HASHED_PASSWORD = '$2a$10$4Ni6iQUgZv.38eRrRXjwsezEHXDxY9iDD/NEpGcGFvs1jkrxhQosK'
 
   const TEST_DB_USER = {
-    id: 'test_id',
-    name: 'Test User',
-    email: 'test_user@test.test',
-    hashedPassword: '$2a$10$4Ni6iQUgZv.38eRrRXjwsezEHXDxY9iDD/NEpGcGFvs1jkrxhQosK'
-  }
-
-  const mockPrisma = {
-    user: {
-      create: () => Promise.resolve(TEST_USER)
-    }
+    id: TEST_USER_ID,
+    name: TEST_USER_NAME,
+    email: TEST_USER_EMAIL,
+    hashedPassword: TEST_USER_HASHED_PASSWORD
   }
 
   beforeAll(async () => {
@@ -54,10 +45,6 @@ describe('UserResolver', () => {
     await app.close()
   })
 
-  beforeEach(async () => {
-
-  })
-
   it('createUser should create a new user', async () => {
     prisma.user.findFirst.mockResolvedValue(null)
     prisma.user.create.mockResolvedValue(TEST_DB_USER)
@@ -68,9 +55,9 @@ describe('UserResolver', () => {
         query: `
           mutation {
             createUser(params: {
-              name: "${TEST_USER.name}"
-              email: "${TEST_USER.email}"
-              password: "${TEST_USER.password}"
+              name: "${TEST_USER_NAME}"
+              email: "${TEST_USER_EMAIL}"
+              password: "${TEST_USER_PASSWORD}"
             }) {
               accessToken
               user { id name email hashedPassword }
@@ -88,10 +75,10 @@ describe('UserResolver', () => {
 
         const user = createUser.user
         expect(user).toBeDefined()
-        expect(user.id).toBeDefined()
-        expect(user.name).toBe(TEST_USER.name)
-        expect(user.email).toBe(TEST_USER.email)
-        expect(user.hashedPassword).toBeDefined()
+        expect(user.id).toBe(TEST_USER_ID)
+        expect(user.name).toBe(TEST_USER_NAME)
+        expect(user.email).toBe(TEST_USER_EMAIL)
+        expect(user.hashedPassword).toBe(TEST_USER_HASHED_PASSWORD)
       })
   })
 
@@ -104,9 +91,9 @@ describe('UserResolver', () => {
         query: `
           mutation {
             createUser(params: {
-              name: "${TEST_USER.name}"
-              email: "${TEST_USER.email}"
-              password: "${TEST_USER.password}"
+              name: "${TEST_USER_NAME}"
+              email: "${TEST_USER_EMAIL}"
+              password: "${TEST_USER_PASSWORD}"
             }) {
               accessToken
               user { id }
@@ -132,8 +119,8 @@ describe('UserResolver', () => {
         query: `
           mutation {
             loginUser(params: {
-              email: "${TEST_USER.email}"
-              password: "${TEST_USER.password}"
+              email: "${TEST_USER_EMAIL}"
+              password: "${TEST_USER_PASSWORD}"
             }) {
               accessToken
               user { id name email hashedPassword }
@@ -151,10 +138,10 @@ describe('UserResolver', () => {
 
         const user = loginUser.user
         expect(user).toBeDefined()
-        expect(user.id).toBeDefined()
-        expect(user.name).toBe(TEST_USER.name)
-        expect(user.email).toBe(TEST_USER.email)
-        expect(user.hashedPassword).toBeDefined()
+        expect(user.id).toBe(TEST_USER_ID)
+        expect(user.name).toBe(TEST_USER_NAME)
+        expect(user.email).toBe(TEST_USER_EMAIL)
+        expect(user.hashedPassword).toBe(TEST_USER_HASHED_PASSWORD)
       })
   })
 
@@ -167,8 +154,8 @@ describe('UserResolver', () => {
         query: `
           mutation {
             loginUser(params: {
-              email: "${TEST_USER.email}"
-              password: "${TEST_USER.password}"
+              email: "${TEST_USER_EMAIL}"
+              password: "${TEST_USER_PASSWORD}"
             }) {
               accessToken
               user { id name email hashedPassword }
@@ -194,7 +181,7 @@ describe('UserResolver', () => {
         query: `
           mutation {
             loginUser(params: {
-              email: "${TEST_USER.email}"
+              email: "${TEST_USER_EMAIL}"
               password: "wrong_password"
             }) {
               accessToken
