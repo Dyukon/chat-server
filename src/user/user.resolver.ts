@@ -35,9 +35,7 @@ export class UserResolver {
       throw new ApolloError('A user with that name already exists')
     }
 
-    const result = await this.userService.createUser(params)
-    this.logger.log(`Mutation.createUser - result: ${JSON.stringify(result)}`)
-    return result;
+    return this.userService.createUser(params)
   }
 
   @Mutation(() => LoginUserResult, {name: 'loginUser'})
@@ -45,9 +43,7 @@ export class UserResolver {
     @Args('params') params: LoginUserInput
   ): Promise<LoginUserResult> {
     this.logger.log(`Mutation.loginUser - params: ${JSON.stringify(params)}`)
-    const result = await this.userService.loginUser(params)
-    this.logger.log(`Mutation.loginUser - result: ${JSON.stringify(result)}`)
-    return result
+    return this.userService.loginUser(params)
   }
 
   @UseGuards(JwtAuthGuard)
