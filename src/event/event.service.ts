@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { CreateEventInput } from './models/create-event.input'
 import { EventsInput } from './models/events.input'
 import { PrismaService } from '../lib/services/prisma.service'
+import { EventType } from './models/event-type.model'
+import { ApolloError } from 'apollo-server-express'
 
 @Injectable()
 export class EventService {
@@ -31,6 +33,27 @@ export class EventService {
         id: senderId
       }
     })
+
+    console.log(`params.type: ${params.type}`)
+    if (params.type === EventType.JOIN || params.type === EventType.LEAVE) {
+      // avoid presence event duplication
+      const lastPresenceEvents = await this.prismaService.event.findMany({
+        where: {
+          senderId: senderId,
+          type: {
+            in: [EventType.JOIN, EventType.LEAVE]
+          }
+        },
+        orderBy: {
+          createdAt: 'desc'
+        },
+        take: 1
+      })
+      console.log(`lastPresenceEvents: ${JSON.stringify(lastPresenceEvents)}`)
+      if (lastPresenceEvents.length>0 && lastPresenceEvents[0].type === params.type) {
+        throw new ApolloError('Duplicate presence event!')
+      }
+    }
 
     return this.prismaService.event.create({
       data: {
