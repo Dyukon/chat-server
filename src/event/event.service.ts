@@ -49,7 +49,6 @@ export class EventService {
         },
         take: 1
       })
-      console.log(`lastPresenceEvents: ${JSON.stringify(lastPresenceEvents)}`)
       if (lastPresenceEvents.length>0 && lastPresenceEvents[0].type === params.type) {
         throw new ApolloError('Duplicate presence event!')
       }
